@@ -1,0 +1,14 @@
+{
+  "devDependencies": {
+    "tailwindcss": "^3.4.4"
+  },
+  "scripts": {
+    "build:css": "tailwindcss build -i ./chat_app/static/css/tailwind.css -o ./chat_app/static/css/main.css",
+    "build:static": "mkdir -p staticfiles/ && python manage.py collectstatic --no-input",
+    "build": "npm run build:css && npm run build:static",
+    "start:redis": "brew services start redis",
+    "stop:redis": "brew services stop redis",
+    "start:django": "daphne -p 8000 chat_project.asgi:application",
+    "start": "npm run start:redis && npm run start:django"
+  }
+}
