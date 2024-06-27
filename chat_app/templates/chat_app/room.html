@@ -11,13 +11,14 @@
 <body class="bg-gray-100 h-screen flex items-center justify-center">
     <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-md">
         <div id="chat-log" class="h-64 overflow-y-auto mb-4 p-2 bg-gray-200 rounded">
-            <!-- Messages will be appended here by HTMX -->
+            {% for message in messages %}
+            <div>{{ message.user.username }}: {{ message.content }}</div>
+            {% endfor %}
         </div>
         <input id="chat-message-input" type="text" placeholder="Type a message"
-            class="w-full px-4 py-2 border rounded focus:outline-none"
-            hx-post="{% url 'chat:send_message' room_name=room_name %}"
+            class="w-full px-4 py-2 border rounded focus:outline-none" hx-post="{% url 'chat:send_message' room=room %}"
             hx-trigger="keyup[enter] from:#chat-message-input" hx-swap="beforeend #chat-log" hx-target="#chat-log"
-            data-room-name="{{ room_name }}">
+            data-room-name="{{ room }}">
     </div>
     <script src="{% static 'js/main.js' %}"></script>
 </body>

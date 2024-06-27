@@ -66,7 +66,7 @@ class ChatConsumerTest(TransactionTestCase):
 
         await communicator.disconnect()
 
-    async def test_different_room_names(self):
+    async def test_different_rooms(self):
         communicator1 = WebsocketCommunicator(application, "/ws/chat/room1/")
         communicator2 = WebsocketCommunicator(application, "/ws/chat/room2/")
         await communicator1.connect()
