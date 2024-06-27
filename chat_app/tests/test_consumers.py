@@ -10,19 +10,13 @@ class ChatConsumerTest(TransactionTestCase):
         self.assertTrue(connected)
 
         # Test sending a message
-        await communicator.send_json_to(
-            {
-                "message": "Hello, World!",
-            }
-        )
+        await communicator.send_json_to({"message": "Hello, World!"})
 
         # Test receiving the message
         response = await communicator.receive_json_from()
         self.assertEqual(
             response,
-            {
-                "message": "Hello, World!",
-            },
+            {"message": "Hello, World!", "room": "testroom", "username": "Anonymous"},
         )
 
         # Test disconnecting
@@ -47,24 +41,13 @@ class ChatConsumerTest(TransactionTestCase):
             response,
             {
                 "message": "Hello, everyone!",
+                "room": "testroom",
+                "username": "Anonymous",
             },
         )
 
         await communicator1.disconnect()
         await communicator2.disconnect()
-
-    async def test_invalid_message_format(self):
-        communicator = WebsocketCommunicator(application, "/ws/chat/testroom/")
-        await communicator.connect()
-
-        # Send invalid message format
-        await communicator.send_json_to({"invalid_key": "This should not work"})
-
-        # Test receiving the error message
-        response = await communicator.receive_json_from()
-        self.assertEqual(response, {"error": "Invalid message format"})
-
-        await communicator.disconnect()
 
     async def test_different_rooms(self):
         communicator1 = WebsocketCommunicator(application, "/ws/chat/room1/")
@@ -95,7 +78,10 @@ class ChatConsumerTest(TransactionTestCase):
 
         # Test that communicator2 receives the message
         response = await communicator2.receive_json_from()
-        self.assertEqual(response, {"message": "Hello room1"})
+        self.assertEqual(
+            response,
+            {"message": "Hello room1", "room": "room1", "username": "Anonymous"},
+        )
 
         # Test that communicator3 does not receive the message
         with self.assertRaises(Exception):

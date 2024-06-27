@@ -26,6 +26,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
             {
                 "type": "chat_message",
                 "message": message,
+                "room": self.room,
                 "username": (
                     self.scope["user"].username
                     if self.scope["user"].is_authenticated
@@ -40,5 +41,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
         # Send message to WebSocket
         await self.send(
-            text_data=json.dumps({"message": message, "username": username})
+            text_data=json.dumps(
+                {"message": message, "room": self.room, "username": username}
+            )
         )
