@@ -4,3 +4,4 @@ channels-redis
 daphne
 pytest
 pytest-django
+whitenoise
