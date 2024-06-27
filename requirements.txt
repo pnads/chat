@@ -2,3 +2,5 @@ django
 channels
 channels-redis
 daphne
+pytest
+pytest-django
