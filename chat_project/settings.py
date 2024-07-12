@@ -118,6 +118,11 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+LOGIN_URL = "chat:login"
+
+LOGIN_REDIRECT_URL = "chat:home"
+
+LOGOUT_REDIRECT_URL = "chat:login"
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/

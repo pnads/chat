@@ -5,7 +5,9 @@
   "scripts": {
     "build:css": "tailwindcss build -i ./chat_app/static/css/tailwind.css -o ./chat_app/static/css/main.css",
     "build:static": "mkdir -p staticfiles/ && python manage.py collectstatic --no-input",
-    "build": "npm run build:css && npm run build:static",
+    "build:front": "npm run build:css && npm run build:static",
+    "build:back": "python manage.py makemigrations && python manage.py migrate && python manage.py create_super_user",
+    "build": "npm run build:front && npm run build:back",
     "start:redis": "brew services start redis",
     "stop:redis": "brew services stop redis",
     "start:django": "daphne -p 8000 chat_project.asgi:application",
